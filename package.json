@@ -1,0 +1,23 @@
+{
+  "name": "pptbuilde",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal presentation style builder that exports portable agent prompts.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "prettier": "3.9.10"
+  }
+}

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Соберите собственный стиль презентации и скопируйте точное задание для своего ИИ-агента. Без регистрации и API-ключей."
+    />
+    <meta name="theme-color" content="#f8f9f6" />
+    <title>PPT Builder — ваш стиль, ваш агент</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="/" class="brand" aria-label="PPT Builder — главная"
+        ><span class="brand-icon">p<span>·</span></span
+        >ppt<span class="brand-light">builder</span><span class="beta">BETA</span></a
+      >
+      <nav aria-label="Основная навигация">
+        <span class="nav-current">Конструктор</span
+        ><button id="help-open" class="nav-link" type="button">
+          Как это работает <span aria-hidden="true">↗</span>
+        </button>
+      </nav>
+      <span class="privacy"><span class="status-dot"></span>Всё остаётся у вас</span>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow">ВАШ ДИЗАЙН. БЕЗ ГОТОВЫХ ТЕМ.</div>
+          <h1>Презентация начинается со стиля<span>.</span></h1>
+          <p>Соберите свой дизайн. Скопируйте промпт. Передайте своему агенту.</p>
+        </div>
+        <button id="reset" class="button ghost small" type="button">
+          <span aria-hidden="true">↺</span> Начать заново
+        </button>
+      </section>
+      <div class="workspace">
+        <aside class="settings-panel" aria-label="Настройки презентации">
+          <div class="panel-heading">
+            <span>Ваша презентация</span><span id="save-status" role="status">Сохранено</span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Разделы настроек">
+            <button
+              id="tab-design"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-design"
+              tabindex="0"
+              data-tab="design"
+            >
+              Дизайн
+            </button>
+            <button
+              id="tab-content"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-content"
+              tabindex="-1"
+              data-tab="content"
+            >
+              Содержание
+            </button>
+            <button
+              id="tab-output"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-output"
+              tabindex="-1"
+              data-tab="output"
+            >
+              Результат
+            </button>
+          </div>
+          <form id="settings" autocomplete="off">
+            <section id="panel-design" role="tabpanel" aria-labelledby="tab-design">
+              <div class="control-section">
+                <label class="field-label" for="style-name">Название стиля</label
+                ><input
+                  id="style-name"
+                  name="name"
+                  maxlength="100"
+                  type="text"
+                  value="Мой редакционный стиль"
+                />
+              </div>
+              <div class="control-section">
+                <h2>
+                  <span class="section-no">01</span> Палитра
+                  <span class="section-detail">СВОИ ЦВЕТА</span>
+                </h2>
+                <div id="palette-fields" class="palette-fields"></div>
+                <div id="contrast-status" class="contrast-status" role="status"></div>
+              </div>
+              <div class="control-section">
+                <h2><span class="section-no">02</span> Типографика</h2>
+                <label class="field-label" for="heading-font">Заголовки</label
+                ><select id="heading-font" name="headingFont"></select
+                ><label class="field-label spaced" for="body-font">Основной текст</label
+                ><select id="body-font" name="bodyFont"></select
+                ><label class="range-label" for="title-size"
+                  >Размер заголовка
+                  <output id="title-size-value" for="title-size">58 pt</output></label
+                ><input
+                  id="title-size"
+                  name="titleSize"
+                  type="range"
+                  min="36"
+                  max="76"
+                  value="58"
+                />
+              </div>
+              <div class="control-section">
+                <h2><span class="section-no">03</span> Композиция</h2>
+                <label class="field-label" for="composition">Характер макета</label
+                ><select id="composition" name="composition">
+                  <option value="asymmetric">Асимметричный</option>
+                  <option value="grid">Строгая сетка</option>
+                  <option value="minimal">Минималистичный</option></select
+                ><span class="field-label spaced">Выравнивание</span>
+                <div
+                  class="segmented"
+                  data-control="alignment"
+                  role="group"
+                  aria-label="Выравнивание"
+                >
+                  <button type="button" data-value="left">По левому краю</button
+                  ><button type="button" data-value="center">По центру</button>
+                </div>
+                <span class="field-label spaced">Плотность текста</span>
+                <div
+                  class="segmented"
+                  data-control="density"
+                  role="group"
+                  aria-label="Плотность текста"
+                >
+                  <button type="button" data-value="low">Воздух</button
+                  ><button type="button" data-value="medium">Баланс</button
+                  ><button type="button" data-value="high">Подробно</button>
+                </div>
+                <label class="range-label" for="radius"
+                  >Скругление <output id="radius-value" for="radius">0 px</output></label
+                ><input id="radius" name="radius" type="range" min="0" max="28" value="0" />
+              </div>
+              <div class="control-section">
+                <h2><span class="section-no">04</span> Визуальный язык</h2>
+                <label class="field-label" for="imagery">Изображения и графика</label
+                ><select id="imagery" name="imagery">
+                  <option value="editorial">Редакционная фотография</option>
+                  <option value="illustration">Иллюстрации</option>
+                  <option value="typographic">Типографика и диаграммы</option></select
+                ><label class="field-label spaced" for="restrictions">Что исключить</label
+                ><textarea
+                  id="restrictions"
+                  name="restrictions"
+                  rows="3"
+                  maxlength="2000"
+                ></textarea>
+              </div>
+            </section>
+            <section id="panel-content" role="tabpanel" aria-labelledby="tab-content" hidden>
+              <div class="control-section">
+                <h2>О чём рассказываем?</h2>
+                <p class="helper">Хороший дизайн начинается с понятной задачи.</p>
+                <label class="field-label" for="topic">Тема презентации</label
+                ><textarea id="topic" name="topic" rows="3" maxlength="2000"></textarea
+                ><label class="field-label spaced" for="audience">Для кого</label
+                ><input
+                  id="audience"
+                  name="audience"
+                  maxlength="2000"
+                  placeholder="Например, команда или инвесторы"
+                /><label class="field-label spaced" for="goal"
+                  >Что должен понять или сделать зритель</label
+                ><textarea id="goal" name="goal" rows="4" maxlength="2000"></textarea
+                ><label class="field-label spaced" for="language">Язык презентации</label
+                ><select id="language" name="language">
+                  <option value="ru">Русский</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+              <div class="control-section">
+                <h2>Материалы и факты</h2>
+                <p class="helper">
+                  Вставьте текст, цифры или ссылки. Агенту понадобятся доступ к ссылкам и сами
+                  файлы, если вы на них ссылаетесь.
+                </p>
+                <label class="field-label" for="sources">Исходные материалы</label
+                ><textarea
+                  id="sources"
+                  name="sources"
+                  rows="10"
+                  maxlength="20000"
+                  placeholder="Основные тезисы, проверенные данные, ссылки…"
+                ></textarea>
+                <p class="helper">
+                  Материалы сохраняются только в этом браузере. Не вставляйте секреты и API-ключи.
+                </p>
+              </div>
+            </section>
+            <section id="panel-output" role="tabpanel" aria-labelledby="tab-output" hidden>
+              <div class="control-section">
+                <h2>Формат результата</h2>
+                <div class="format-options" data-control="format">
+                  <button type="button" data-value="pptx">
+                    <span class="file-icon">P</span
+                    ><span><strong>PowerPoint</strong><small>Редактируемый .pptx</small></span
+                    ><span class="radio-mark"></span></button
+                  ><button type="button" data-value="html">
+                    <span class="file-icon html-icon">&lt;/&gt;</span
+                    ><span><strong>HTML-слайды</strong><small>Презентация в браузере</small></span
+                    ><span class="radio-mark"></span>
+                  </button>
+                </div>
+                <span class="field-label spaced">Пропорции слайда</span>
+                <div
+                  class="segmented"
+                  data-control="ratio"
+                  role="group"
+                  aria-label="Пропорции слайда"
+                >
+                  <button type="button" data-value="16:9">16:9 · широкий</button
+                  ><button type="button" data-value="4:3">4:3 · классика</button>
+                </div>
+                <label class="range-label" for="slides"
+                  >Количество слайдов <output id="slides-value" for="slides">8</output></label
+                ><input id="slides" name="slides" type="range" min="3" max="30" value="8" />
+                <p class="helper">Включая обложку и заключение.</p>
+              </div>
+              <div class="control-section">
+                <h2>Дополнительно</h2>
+                <label class="toggle-row"
+                  ><span
+                    ><strong>Заметки докладчика</strong
+                    ><small>Что говорить за пределами слайда</small></span
+                  ><input type="checkbox" name="notes" /><span class="toggle-track"></span></label
+                ><label class="toggle-row"
+                  ><span
+                    ><strong>Источники</strong><small>Ссылки на факты и изображения</small></span
+                  ><input type="checkbox" name="citations" /><span class="toggle-track"></span
+                ></label>
+                <p class="helper output-note">
+                  Агенту нужны инструменты для создания файлов. Промпт попросит проверить слайды и
+                  честно сообщить об ограничениях.
+                </p>
+              </div>
+            </section>
+          </form>
+          <div class="settings-footer">
+            <button id="import" type="button">↑ Импорт проекта</button
+            ><button id="export" type="button">↓ Экспорт проекта</button
+            ><input type="file" id="import-file" accept="application/json,.json" hidden />
+          </div>
+        </aside>
+        <section class="canvas-panel" aria-label="Превью и готовое задание">
+          <div class="canvas-toolbar">
+            <div>
+              <span class="status-dot"></span><span>Живое превью</span
+              ><span class="toolbar-divider"></span><span id="ratio-label">16:9</span>
+            </div>
+            <button
+              class="icon-button"
+              id="fullscreen"
+              aria-label="Открыть слайд на весь экран"
+              title="На весь экран"
+              type="button"
+            >
+              ⛶
+            </button>
+          </div>
+          <div class="stage" id="stage">
+            <div class="slide" id="slide" aria-label="Пример слайда"></div>
+          </div>
+          <div class="preview-bottom">
+            <span><span class="tiny-spark">✳</span> Так будет выглядеть ваш стиль</span
+            ><span id="slide-counter">01 / 03</span>
+          </div>
+          <div class="filmstrip" role="group" aria-label="Тип слайда">
+            <button type="button" data-slide="cover" class="thumb selected" aria-pressed="true">
+              <span class="mini-slide mini-cover"><i></i><b>Aa</b><em></em></span
+              ><span><small>01</small> Обложка</span></button
+            ><button type="button" data-slide="content" class="thumb" aria-pressed="false">
+              <span class="mini-slide mini-content"><b>Aa</b><i></i><i></i><em></em></span
+              ><span><small>02</small> Содержание</span></button
+            ><button type="button" data-slide="data" class="thumb" aria-pressed="false">
+              <span class="mini-slide mini-data"><b>Aa</b><i></i><i></i><i></i></span
+              ><span><small>03</small> Данные</span>
+            </button>
+            <div class="preview-disclaimer">Примеры композиций.<br />Данные условные.</div>
+          </div>
+          <section class="prompt-panel" aria-labelledby="prompt-heading">
+            <div class="prompt-top">
+              <div>
+                <span class="eyebrow">СЛЕДУЮЩИЙ ШАГ</span>
+                <h2 id="prompt-heading">Ваш стиль готов к передаче</h2>
+                <p>Одно задание с дизайном и содержанием — для вашего агента.</p>
+              </div>
+              <span class="file-badge" id="format-badge">.PPTX</span>
+            </div>
+            <div class="prompt-actions">
+              <button id="copy" class="button primary" type="button">
+                <span aria-hidden="true">▣</span> Скопировать промпт
+                <span class="button-arrow" aria-hidden="true">↗</span></button
+              ><button
+                id="download"
+                class="button ghost"
+                type="button"
+                aria-label="Скачать промпт текстовым файлом"
+              >
+                ↓ <span>Скачать .txt</span>
+              </button>
+            </div>
+            <div class="prompt-meta">
+              <span>Для агента с инструментами создания файлов</span
+              ><button id="prompt-open" type="button">
+                Посмотреть задание <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+          </section>
+        </section>
+      </div>
+      <footer class="page-footer">
+        <span>Свой стиль важнее готового шаблона.</span
+        ><span>Без регистрации. Без API-ключей.</span>
+      </footer>
+    </main>
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <div class="dialog-header">
+        <h2 id="help-title">От идеи до презентации</h2>
+        <button class="icon-button" data-close aria-label="Закрыть" type="button">×</button>
+      </div>
+      <div class="help-steps">
+        <div>
+          <b>01</b>
+          <h3>Соберите свой стиль</h3>
+          <p>
+            Настройте палитру, шрифты и композицию. Превью покажет дизайн на трёх примерах, а не
+            готовую презентацию.
+          </p>
+        </div>
+        <div>
+          <b>02</b>
+          <h3>Добавьте содержание</h3>
+          <p>Укажите тему, аудиторию, цель и материалы. Выберите PowerPoint или HTML-слайды.</p>
+        </div>
+        <div>
+          <b>03</b>
+          <h3>Передайте своему агенту</h3>
+          <p>
+            Скопируйте промпт и вставьте в агента с доступом к созданию файлов. Исходные документы
+            прикрепите отдельно. Результат зависит от модели и её инструментов.
+          </p>
+        </div>
+      </div>
+      <p class="dialog-note">
+        Настройки автоматически сохраняются в этом браузере. Экспорт проекта позволяет перенести их
+        на другое устройство. Этот сайт не отправляет ваши материалы модели и сам не создаёт
+        презентацию.
+      </p>
+    </dialog>
+    <dialog id="prompt-dialog" class="wide-dialog" aria-labelledby="prompt-dialog-title">
+      <div class="dialog-header">
+        <div>
+          <h2 id="prompt-dialog-title">Готовое задание</h2>
+          <p>Инструкции и параметры вашего дизайна</p>
+        </div>
+        <button class="icon-button" data-close aria-label="Закрыть" type="button">×</button>
+      </div>
+      <div class="output-tabs" role="group" aria-label="Представление задания">
+        <button type="button" data-view="prompt" aria-pressed="true">Промпт + JSON</button
+        ><button type="button" data-view="json" aria-pressed="false">Только JSON</button>
+      </div>
+      <textarea id="prompt-text" readonly spellcheck="false" aria-label="Текст задания"></textarea>
+      <div class="dialog-actions">
+        <button id="dialog-copy" class="button primary" type="button">Скопировать</button
+        ><button class="button ghost" data-close type="button">Закрыть</button>
+      </div>
+    </dialog>
+    <dialog id="reset-dialog" aria-labelledby="reset-title">
+      <div class="dialog-header">
+        <h2 id="reset-title">Начать заново?</h2>
+        <button class="icon-button" data-close aria-label="Закрыть" type="button">×</button>
+      </div>
+      <p class="dialog-note">
+        Текущие настройки и материалы будут заменены начальными. Можно сначала экспортировать
+        проект.
+      </p>
+      <div class="dialog-actions">
+        <button id="reset-confirm" class="button primary" type="button">Сбросить настройки</button
+        ><button class="button ghost" data-close type="button">Отмена</button>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/app.mjs"></script>
+  </body>
+</html>
